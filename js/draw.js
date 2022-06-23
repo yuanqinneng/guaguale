@@ -21,11 +21,17 @@ export default class draw {
         ctx.fillRect(0, 0, this.width, this.height);
         ctx.save()
         ctx.restore()
-        ctx.fillStyle = '#fff';
-        ctx.textBaseline = 'middle';
-        ctx.textAlign = 'center';
-        ctx.font = '30px Georgia';
-        ctx.fillText('来刮我呀', this.width/2, this.height/2);
+        // ctx.fillStyle = '#fff';
+        // ctx.textBaseline = 'middle';
+        // ctx.textAlign = 'center';
+        // ctx.font = '30px Georgia';
+        // ctx.fillText('来刮我呀', this.width/2, this.height/2);
+        
+        let bgImg = new Image();
+        bgImg.src = './imgs/bg.png';
+        bgImg.onload = () => {
+            ctx.drawImage(bgImg, 10, 10, this.width-20, this.height-20);
+        }
         ctx.restore()
         ctx.restore()
 
