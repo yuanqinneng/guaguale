@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>来刮奖呀</title>
+        <link rel="stylesheet" href="./js/swiper8/swiper-bundle.min.css">
+        <style>
+            * {
+                padding: 0;
+                margin: 0;
+                box-sizing: border-box;
+            }
+            html,
+            body {
+                width: 100%;
+                height: 100%;
+                position: relative;
+                user-select: none;
+            }
+            body {
+                padding: 50px 10px 10px 10px;
+            }
+            h2 {
+                width: 100%;
+                background-color: #ffffff;
+                position: fixed;
+                top: 0;
+                font-size: 18px;
+                letter-spacing: 10px;
+                padding: 10px;
+                font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+                text-align: center;
+                z-index: 99;
+            }
+            #canvas {
+                position: absolute;
+                top: 0;
+                left: 0;
+            }
+            #card-wrap {
+                width: 100%;
+                position: relative;
+                margin: 30px 0 0 0;
+                background-color: #f5f5f5;
+            }
+            .card-row {
+                display: flex;
+                width: 100%;
+            }
+            .card-item {
+                padding: 10px 0;
+                width: 20%;
+                height: 20%;
+                font-size: 12px;
+                background-image: url(./imgs/border.jpg);
+                background-size: 100% 100%;
+            }
+            .card-item p {
+                height: 20px;
+                line-height: 20px;
+                text-align: center;
+            }
+            .win-number {
+                position: absolute;
+                width: 100px;
+                height: 100px;
+                line-height: 100px;
+                top: 10px;
+                right: 10px;
+                text-align: center;
+                font-weight: bold;
+                font-size: 18px;
+                color: red;
+                background-image: url(./imgs/border.jpg);
+                background-size: 100% 100%;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+            }
+            .win-number p {
+                width: 100%;
+                height: 30px;
+                line-height: 30px;
+            }
+            .title-box {
+                width: 100%;
+                height: 28px;
+                overflow: hidden;
+                border-radius: 4px;
+                padding: 2px 5px;
+                background-color: #f1f1f1;
+            }
+            .title {
+                height: 20px;
+                line-height: 20px;
+                font-size: 12px;
+                color: red;
+                display: inline-block;
+                white-space: nowrap;
+                animation: 12s wordsLoop linear infinite normal;
+            }
+
+            @keyframes wordsLoop {
+                0% {
+                    transform: translateX(100%);
+                    -webkit-transform: translateX(100%);
+                }
+                100% {
+                    transform: translateX(-100%);
+                    -webkit-transform: translateX(-100%);
+                }
+            }
+
+            @-webkit-keyframes wordsLoop {
+                0% {
+                    transform: translateX(100%);
+                    -webkit-transform: translateX(100%);
+                }
+                100% {
+                    transform: translateX(-100%);
+                    -webkit-transform: translateX(-100%);
+                }
+            }
+            section {
+                position: relative;
+                padding-bottom: 50px;
+            }
+            #banner {
+                width: 100%;
+                height: 150px;
+                margin: 10px 0;
+                position: relative;
+            }
+            .btn-group {
+                width: 100%;
+                height: 40px;
+                position: fixed;
+                bottom: 0;
+                left: 0;
+                display: flex;
+            }
+            .btn-group div {
+                flex: 1;
+                height: 100%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                background-color: #49cd91;
+                border: none;
+                font-size: 14px;
+                font-weight: bold;
+                letter-spacing: 4px;
+                color: #ffffff;
+            }
+            .tips {
+                font-size: 12px;
+                color: #999;
+            }
+            .tips p {
+                margin: 5px;
+            }
+            .swiper-img {
+                width: 100%;
+            }
+        </style>
+    </head>
+    <body>
+        <header>
+            <h2>505刮刮乐</h2>
+            <div class="title-box">
+                <p class="title">
+                    全新刮刮乐火爆来袭，欢迎各位小伙伴来刮！冲冲冲！！！(仅供娱乐)
+                    另有肥猫一只出售，有意者联系吴老板: 15xxxxxxxxx
+                </p>
+            </div>
+            <div id="banner" class="swiper">
+                <div class="swiper-wrapper">
+                    <div class="swiper-slide">
+                        <img class="swiper-img" src="./imgs/cat1.png">
+                    </div>
+                    <div class="swiper-slide">
+                        <img class="swiper-img" src="./imgs/cat2.png">
+                    </div>
+                </div>
+                <!-- 如果需要分页器 -->
+                <div class="swiper-pagination"></div>
+            </div>
+        </header>
+        <section>
+            <div id="card-wrap"></div>
+            <canvas id="canvas"></canvas>
+            <div class="btn-group">
+                <div id="oneTouchErase">
+                    一键擦除
+                </div>
+                <div id="anotherOnePiece" style="background-color: #5dd8f9">
+                    来一张
+                </div>
+            </div>
+            <div class="tips">
+                <p style="font-weight: bold;">游戏规则：</p>
+                <p>1、 点击来一张</p>
+                <p>2、 开始擦除(嫌慢可以使用一键擦除)</p>
+                <p>3、 如果擦除出的数字与中奖号码相同，即中奖，可获得号码下相应的元宝哦，可凭中奖截图找yqn兑奖！</p>
+            </div>
+        </section>
+        <script src="./js/swiper8/swiper-bundle.min.js"></script>
+        <script type="module">
+            import draw from './js/draw.js';
+            let mySwiper = new Swiper ('#banner', {
+                autoplay: true,
+                delay: 5000,
+                speed: 2000,
+                direction: 'horizontal', // 垂直切换选项
+                loop: true,
+                pagination: {
+                    el: '.swiper-pagination',
+                },
+            }) 
+            let cardWrap = document.getElementById('card-wrap');
+            window.onload = () => {
+                let context = null
+                document.getElementById("oneTouchErase").addEventListener("click", function() {
+                    if (context) {
+                        context.erase()
+                    } else {
+                        alert('请先购买哦！')
+                    }
+                })
+                document.getElementById("anotherOnePiece").addEventListener("click", function() {
+                    this.innerText = '再来一张'
+                    initCard()
+
+                    let canvas = document.getElementById('canvas'),
+                        rect = cardWrap.getBoundingClientRect();
+                    canvas.setAttribute('width', rect.width)
+                    canvas.setAttribute('height', rect.height)
+                    context = new draw('canvas', rect.width, rect.height);
+                })
+            };
+            function initCard() {
+                while (cardWrap.firstChild) {
+                    cardWrap.removeChild(cardWrap.firstChild);
+                }
+                let winNumber = getNumber(),
+                    winAmounts = ['5', '50', '5k', '50k', '500k'],
+                    numbers = [];
+                for (let i = 0; i < 5; i++) {
+                    let subNumbers = [];
+                    for (let j = 0; j < i + 1; j++) {
+                        const numRandom = noWin(winNumber),
+                            amountRandom = parseInt((Math.random() * 10) / 2),
+                            amount = winAmounts[amountRandom];
+                        subNumbers.push({
+                            number: numRandom,
+                            amount: amount,
+                        });
+                    }
+                    numbers.push(subNumbers);
+                }
+                function noWin(winNum) {
+                    let random = getNumber();
+                    if (random != winNum) {
+                        return random;
+                    } else {
+                        return noWin(winNum);
+                    }
+                }
+                function getNumber() {
+                    return parseInt(Math.random() * 100);
+                }
+                let cardHtml = '';
+                for (let i = 0; i < numbers.length; i++) {
+                    const subNumbers = numbers[i];
+                    cardHtml += '<div class="card-row">';
+                    for (let j = 0; j < subNumbers.length; j++) {
+                        const numberObj = subNumbers[j];
+                        cardHtml += `<div class="card-item">
+                                        <p>${numberObj.number}</p>        
+                                        <p style="font-weight:bold">￥：${numberObj.amount}</p>        
+                                    </div>`;
+                    }
+                    cardHtml += '</div>';
+                }
+        
+                cardHtml += `<div class="win-number">
+                                <p style="font-weight: normal; color: #000; font-size: 14px">中奖号码</p>
+                                <p>${winNumber}</p>
+                            </div>`;
+                cardWrap.innerHTML = cardHtml;
+                cardWrap.style.padding = '10px'
+            }
+        </script>
+    </body>
+</html>
