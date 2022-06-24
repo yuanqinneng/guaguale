@@ -31,8 +31,11 @@
             </div>
         </header>
         <section>
-            <div id="card-wrap"></div>
-            <canvas id="canvas"></canvas>
+            <p class="progress"><span>擦除进度:</span><span id="numProgress">0%</span><span id="winOrnot"></span></p>
+            <div style="position: relative;">
+                <div id="card-wrap"></div>
+                <canvas id="canvas"></canvas>
+            </div>
             <div class="btn-group">
                 <div id="oneTouchErase">
                     一键擦除
@@ -74,12 +77,15 @@
                 document.getElementById("anotherOnePiece").addEventListener("click", function() {
                     this.innerText = '再来一张'
                     initCard()
-
                     let canvas = document.getElementById('canvas'),
                         rect = cardWrap.getBoundingClientRect();
                     canvas.setAttribute('width', rect.width)
                     canvas.setAttribute('height', rect.height)
                     context = new draw('canvas', rect.width, rect.height);
+                    context.moveCallback = function (progress) {
+                        document.getElementById('numProgress').innerText = progress + '%'
+                    }   
+                    context.moveCallback(0)
                 })
             };
             function initCard() {
@@ -133,6 +139,7 @@
                             </div>`;
                 cardWrap.innerHTML = cardHtml;
                 cardWrap.style.padding = '10px'
+                document.querySelector('.progress').style.display = 'block'
             }
         </script>
     </body>

@@ -1,7 +1,6 @@
 export default class draw {
     constructor(id, width, height) {
         this.id = id;
-        this.timer = null
         this.isDraw = false;
         this.canvas = document.getElementById('canvas');
         this.width = width;
@@ -76,6 +75,8 @@ export default class draw {
         ctx.globalCompositeOperation = 'destination-out';
         ctx.arc(x, y, 20, 0, 2 * Math.PI);
         ctx.fill();
+        console.log(this.getTransparentPercent(ctx));
+        if(this.moveCallback) this.moveCallback(this.getTransparentPercent(ctx))
     }
     onEndFn() {
         this.isDraw = false;
@@ -102,19 +103,18 @@ export default class draw {
             imgData.data[i] = 0;
         }
         ctx.putImageData(imgData, 0, 0);
+        if(this.moveCallback) this.moveCallback(this.getTransparentPercent(ctx))
         this.winOrNot();
     }
     winOrNot() {
-        this.timer = setTimeout(() => {
-            let ctx = this.canvas.getContext('2d');
-            if (this.getTransparentPercent(ctx) > 80) {
-                if (!this.firstShowTips) {
-                    this.firstShowTips = true
-                    alert('很遗憾，老板您未中奖，欢迎您再来一张');
-                } 
-            } else {
-                alert('老板，您擦除的面积未达80%，请继续擦除！');
+        let ctx = this.canvas.getContext('2d');
+        if (this.getTransparentPercent(ctx) > 80) {
+            if (!this.firstShowTips) {
+                this.firstShowTips = true
+                // alert('很遗憾，老板您未中奖，欢迎您再来一张');
+                document.querySelector('#winOrnot').style.display = 'inline-block'
+                document.querySelector('#winOrnot').innerText = '很遗憾，您未能中奖'
             }
-        }, 500);
+        } 
     }
 }

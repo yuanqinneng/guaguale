@@ -33,7 +33,6 @@ h2 {
 #card-wrap {
     width: 100%;
     position: relative;
-    margin: 30px 0 0 0;
     background-color: #f5f5f5;
 }
 .card-row {
@@ -154,4 +153,14 @@ section {
 }
 .swiper-img {
     width: 100%;
+}
+.progress {
+    font-size: 12px; 
+    padding: 10px 0;
+    display: none;
+}
+#winOrnot {
+    display: none;
+    float: right;
+    color: red;
 }
